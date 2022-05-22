@@ -31,18 +31,17 @@ MAIN_PID="$$"
 #####      macOS compatibility      #####
 #########################################
 
-# credit to @Zhann in #149
-#   to use it, you will need to have GNU core utils installed
-case "$OSTYPE" in
-darwin*)
-    sed() {
-        gsed "$@"
-    }
-    paste() {
-        gpaste "$@"
-    }
-    ;;
-esac
+# # credit to @Zhann in #149
+# #   to use it, you will need to have GNU core utils installed
+# case "$OSTYPE" in darwin*
+#     sed() {
+#         gsed "$@"
+#     }
+#     paste() {
+#         gpaste "$@"
+#     }
+#     ;;
+# esac
 
 ######################################
 #####      Snippet priority      #####
