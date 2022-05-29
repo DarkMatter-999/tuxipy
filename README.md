@@ -7,22 +7,19 @@
 
 ### How does this work?
 
-The script uses `pup` to scrape Google search results and SERPs.
+The script uses `beautifulsoup4` to scrape Google search results and SERPs.
 If the query returns several results, Tuxi will choose the most 
 relevant result on the basis of priority.
 
-In addition to scraping, `tuxi` also uses `jq`, `awk` and `sed` 
-to process and return results, and `recode` to unescape html.
-
 
 [Watch this video for more info](https://youtu.be/EtwWvMa8muU)
-> Also checkout BugsWriter's YouTube channel for more scripts like this.
+<!-- > Also checkout BugsWriter's YouTube channel for more scripts like this. -->
 
 ## Requirements
 
-* [pup](https://github.com/ericchiang/pup) - CLI tool for processing HTML.
-* [recode](https://github.com/rrthomas/recode) - Charset converter tool and library.
-* [jq](https://github.com/stedolan/jq) - Command-line JSON processor.
+* [python](https://www.python.org/) - Python Interpreter.
+* [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/) - Web scraper and HTML Parser.
+* [urllib](https://github.com/urllib3/urllib3) - URLlib to pass proper parameters.
 
 ## Installation
 
@@ -30,15 +27,15 @@ to process and return results, and `recode` to unescape html.
 cURL **tuxi** to your **$PATH** and give execute permissions.
 
 ```sh
-$ sudo curl -sL "https://raw.githubusercontent.com/Bugswriter/tuxi/main/tuxi" -o /usr/local/bin/tuxi
-$ sudo chmod +x /usr/local/bin/tuxi
+$ sudo curl -sL "https://raw.githubusercontent.com/DarkMatter-999/tuxipy/main/tuxi.py" -o /usr/local/bin/tuxi.py
+$ sudo chmod +x /usr/local/bin/tuxi.py
 ```
 > To update, just do `curl` again, no need to `chmod` anymore.  
-> To uninstall, simply remove `tuxi` from your **$PATH**, for example `sudo rm -f /usr/local/bin/tuxi`.
+> To uninstall, simply remove `tuxi` from your **$PATH**, for example `sudo rm -f /usr/local/bin/tuxi.py`.
 
 ### Make
 ```sh
-$ git clone https://github.com/Bugswriter/tuxi.git && cd tuxi/
+$ git clone https://github.com/DarkMatter-999/tuxipy.git && cd tuxipy/
 $ sudo make install
 ```
 > To update, just `git pull` on your local tuxi repository and reinstall with `sudo make install`.  
@@ -73,47 +70,47 @@ Use `-h` to display the help message.
 Usage: tuxi [options] query
 OR: query source | tuxi [options]
 
-Options:
-  -h                    Show this help message and exit.
-  -v                    Print tuxi version info and exit.
+# Options:
+#   -h                    Show this help message and exit.
+#   -v                    Print tuxi version info and exit.
 
-  -r                    Raw search results.
-                        (no pretty output, no colors)
+#   -r                    Raw search results.
+#                         (no pretty output, no colors)
 
-  -q                    Only output search results.
-                        (silences "Did you mean?", greeting, usage)
+#   -q                    Only output search results.
+#                         (silences "Did you mean?", greeting, usage)
 
-  -a                    Prints all valid answers.
+#   -a                    Prints all valid answers.
 
-  -u                    Prints out the top handful of URLs for your search query
-                        (this is automatically printed out if tuxi can't find you an answer)
+#   -u                    Prints out the top handful of URLs for your search query
+#                         (this is automatically printed out if tuxi can't find you an answer)
 
-  -b                    Tries to select the best answer based on keywords at the start and end of your query.
-                        (experimental - eg: define WORD, SONG lyrics, PERSON quotes, weather CITY, FILM cast)
+#   -b                    Tries to select the best answer based on keywords at the start and end of your query.
+#                         (experimental - eg: define WORD, SONG lyrics, PERSON quotes, weather CITY, FILM cast)
 
-  -t                    Pick answers to test.
-                        (you can specify multiple answers using tuxi_NAME in your query)
+#   -t                    Pick answers to test.
+#                         (you can specify multiple answers using tuxi_NAME in your query)
 
-  -l                    use LANG_[lang] in your query to override the language used
-                        (eg: tuxi -l LANG_en_US my search query)
+#   -l                    use LANG_[lang] in your query to override the language used
+#                         (eg: tuxi -l LANG_en_US my search query)
 
-tuxi supports the following environment variables:
-  TUXI_LANG=[lang]      sets default search language (eg: TUXI_LANG='en_US')
+# tuxi supports the following environment variables:
+#   TUXI_LANG=[lang]      sets default search language (eg: TUXI_LANG='en_US')
 
-  TUXI_DELAY=[int]      if you find more than one answer is being printed (and you're not using -a)
-                        increase this number by a little (you want it to be as low as possible)
-                        default value is 250 (eg: TUXI_DELAY=270)
+#   TUXI_DELAY=[int]      if you find more than one answer is being printed (and you're not using -a)
+#                         increase this number by a little (you want it to be as low as possible)
+#                         default value is 250 (eg: TUXI_DELAY=270)
 
-developer flags:
-  -d                    prints debug info along with results
-  -s                    saves HTML for this query to /home/dave/.cache/tuxi/[date]-[query].html
+# developer flags:
+#   -d                    prints debug info along with results
+#   -s                    saves HTML for this query to /home/dave/.cache/tuxi/[date]-[query].html
 
-  -c                    use most recent cached result and query
-                        this can be combined with -t flag to more quickly test for different answers
+#   -c                    use most recent cached result and query
+#                         this can be combined with -t flag to more quickly test for different answers
 
-  -p                    disable pipe support (it can break some scripts including our own test script)
+#   -p                    disable pipe support (it can break some scripts including our own test script)
 
-Report bugs at https://github.com/Bugswriter/tuxi/issues
+Report bugs at https://github.com/DarkMatter-999/tuxipy/issues
 ```
 
 ## Features

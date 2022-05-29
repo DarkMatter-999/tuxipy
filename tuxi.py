@@ -31,6 +31,7 @@ priority=[
     "unit",            # Units Conversion ( eg: 1m into 1 cm )
     "currency",        # Currency Conversion ( eg: 1 USD in rupee )
     "kno_top",         # Knowledge Graph - top ( list ) ( eg: the office cast )
+    "moreans",         # Answers yet again ( eg: Is Linux better than Windows? )
     "basic",           # Basic Answers ( eg: christmas day )
     "feat",            # Featured Snippets ( eg: who is garfield )
     "quotes",          # Quotes ( eg: mahatma gandhi quotes )
@@ -38,6 +39,7 @@ priority=[
     "sport_fixture",   # Shows last or next fixture of a sports team ( eg. Chelsea next game )
     "lyrics_us",       # Lyrics for US users, above does not work for US
     "kno_right",       # Knowledge Graph - right ( eg: the office )
+    "datetime",        # Time and Date results ( eg: Whats the time || what is the date today ) @DarkMatter-999
 ]
 
 parser = argparse.ArgumentParser(prog='tuxipy')
@@ -71,6 +73,11 @@ def a_quotes():
 # this displays similar info to kno_val but uses a different div in the google results
 def a_basic():
     return "".join([ a.text for a in google_html.find_all("div", class_ = "zCubwf")])
+
+# Answers yet again ( eg: Is Linux better than Windows? ) // @DarkMatter-999
+def a_moreans():
+    return "".join([ a.text for a in google_html.find_all("span", class_ = "hgKElc")])
+    
 
 # # Rich Rich Answers ( eg: social network cast ) //credit @BeyondMagic
 # def a_richcast():
@@ -125,7 +132,10 @@ def a_kno_right():
 def a_pronounce():
     return "".join([a.text for a in google_html.find_all("div", class_ = "TQ7enb")])
 
-
+# Time and Date results ( eg: Whats the time || what is the date today ) @DarkMatter-999
+def a_datetime():
+    return "".join([a.text for a in google_html.find_all("div", class_ = "FzvWSb")])
+    
 
 def make_req(query):
     google_url = "https://www.google.com/search?"
@@ -152,7 +162,8 @@ def get_answers(html):
             
             outputs = [globals()["a_"+k]() for k in priority if "a_"+k in globals()]
             outputs = [o for o in outputs if o != None and o !='']
-            return outputs[0]
+            return outputs[0] if outputs else "Could not get results"
+            #return outputs
 
 if args.q == None and args.query == None:
     print("Hi, I'm TuxiPy. Ask me anything!\n")

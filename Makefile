@@ -8,9 +8,9 @@ tuxi:
 
 install:
 	mkdir -p ${DESTDIR}${PREFIX}/bin
-	cp tuxi ${DESTDIR}${PREFIX}/bin/tuxi
+	cp tuxi.py ${DESTDIR}${PREFIX}/bin/tuxi.py
 
 uninstall:
-	rm -f ${DESTDIR}${PREFIX}/bin/tuxi
+	rm -f ${DESTDIR}${PREFIX}/bin/tuxi.py
 
 .PHONY: all install uninstall
