@@ -47,6 +47,86 @@ parser.add_argument('--query', nargs='?', help='Search query')
 
 args = parser.parse_args()
 
+# this div is google's top line answer, works for simple dates, values etc
+# eg: density of silver, what is the triple point of oxygen, elevation of mount everest, christmas day
+# "what is the " seems to be required for some things //credit @sudocanttype
+def a_math():
+    print("".join([ a.text for a in google_html.find_all("span", class_ = "qv3Wpe")]))
+
+# Math ( eg: log_2(3) * pi^e ) //credit @BeyondMagic
+def a_kno_val():
+    print("".join([ a.text for a in google_html.find_all("div", class_ = "Z0LcW")]))
+
+# Knowledge Graph - top (list) ( eg: the office cast ) //credit @Bugswriter
+def a_kno_top():
+    for a in google_html.find_all("div", class_ = "jhtnKe oJxN6"):
+        x = zip([b.text for b in a.find_all("div", class_="JjtOHd")],[b.text for b in a.find_all("div", class_="ellip yF4Rkc AqEFvb")])
+        print("\n".join("".join(i) for i in list(x)))
+
+# Quotes ( eg: mahatma gandhi quotes ) //credit @PoseidonCoder
+def a_quotes():
+    print("".join([ a.text for a in google_html.find_all("div", class_ = "Qynugf")]))
+
+# Basic Answers ( eg: summer solstice || easter ) // @Bugswriter
+# this displays similar info to kno_val but uses a different div in the google results
+def a_basic():
+    print("".join([ a.text for a in google_html.find_all("div", class_ = "zCubwf")]))
+
+# Rich Rich Answers ( eg: social network cast ) //credit @BeyondMagic
+def a_richcast():
+    for a in google_html.find_all("a", class_ = "ct5Ked"):
+        # x = zip([b.text for b in a.find_all("div", class_="JjtOHd")],[b.text for b in a.find_all("div", class_="ellip yF4Rkc AqEFvb")])
+        # print("\n".join("".join(i) for i in list(x)))
+        print(a)
+
+# Simple lists (eg: how to exit vim || how to update windows) //original snippet credit @BeyondMagic
+def a_lists():
+    print("\n".join([ a.text for a in google_html.find_all("li", class_ = "TrT0Xe")]))
+
+# Featured Snippets ( eg: who is garfield ) //credit @Bugswriter
+def a_feat():
+    print("".join([ a.find("span").text for a in google_html.find_all("div", class_ = "PZPZlf hb8SAc")]))
+
+# Lyrics ( eg: gecgecgec lyrics ) //credit @d-shaun
+def a_lyrics_int():
+    print("\n".join([ a.text for a in google_html.find_all("span", jsname = "YS01Ge")]))
+
+# Weather ( eg: weather new york) //credit @jhagas + @Genghius + @BeyondMagic
+def a_weather():
+    data = [a.text for a in google_html.find_all("div", class_ = "UQt4rd")]
+    if data:
+        data = data[0]
+        data = data.split("%")
+
+        weather = data[0][:2] + "°C " + data[0][2:4] + "°F\nPrecipitation:" + data[0].split(":")[1] + "\n" + data[1] + "\n" + data[2].split("km/h")[0] + "km/h " + data[2].split("km/h")[1]
+        print(weather)
+
+# Units Conversion ( eg: 1m into 1 cm ) //credit @karthink
+def a_unit():
+    data = [a.find("input") for a in google_html.find_all("div", id = "NotFQb")]
+    if data:
+        print(data[0]["value"])
+
+# Currency Conversion ( eg: 1 USD in rupee ) //credit @karthink
+def a_currency():
+    print("".join([ a.text for a in google_html.find_all("span", class_ = "SwHCTb")]))
+
+# Translate ( eg: Vais para cascais? em ingles ) //credit @Genghius
+def a_trans():
+    print("".join([ a.text for a in google_html.find_all("pre", class_ = "XcVN5d")]))
+
+# Knowledge Graph - right ( eg: the office ) //credit @Bugswriter
+def a_kno_right():
+    data = google_html.find("div", class_ = "kno-rdesc")
+    if data:
+        print("".join([data.find("span").text]))
+
+# Learn to pronounce ( eg: pronounce linux ) //credit @sdushantha
+def a_pronounce():
+    print("".join([a.text for a in google_html.find_all("div", class_ = "TQ7enb")]))
+
+
+
 def make_req(query):
     google_url = "https://www.google.com/search?"
     user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36"
@@ -68,12 +148,14 @@ if args.q == None and args.query == None:
 else:
     q, query = args.q, args.query
     if q != None:
-        res = make_req(q)
-        # print(res.prettify())
+        google_html = make_req(q)
+        # print(google_html.prettify())
         if not quiet:
-            print("Did you mean ", end="")
-            print("".join([ a.text for a in res.find_all("a", class_ = "gL9Hy")]))
-
-            # print(globals()["parser"])
+            correction = "".join([ a.text for a in google_html.find_all("a", class_ = "gL9Hy")])
+            if correction:
+                print("Did you mean ", end="")
+                print(correction)
+            
+            print([globals()["a_"+k]() for k in priority if "a_"+k in globals()])
     else:
         make_req(query)
