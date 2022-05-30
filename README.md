@@ -28,6 +28,8 @@ cURL **tuxi** to your **$PATH** and give execute permissions.
 
 ```sh
 $ sudo curl -sL "https://raw.githubusercontent.com/DarkMatter-999/tuxipy/main/tuxi.py" -o /usr/local/bin/tuxi.py
+$ sudo curl -sL "https://raw.githubusercontent.com/DarkMatter-999/tuxipy/main/requirements.txt" -o /tmp/requirements.txt
+$ pip3 install -r /tmp/requirements.txt
 $ sudo chmod +x /usr/local/bin/tuxi.py
 ```
 > To update, just do `curl` again, no need to `chmod` anymore.  
@@ -50,7 +52,7 @@ $ yay -S tuxi-git
 ## Usage
 
 ```sh
-$ tuxi "Is Linux better than Windows?"
+$ tuxi.py "Is Linux better than Windows?"
 ---
 Linux has a reputation for being fast and smooth while
 Windows 10 is known to become slow and slow over

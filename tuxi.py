@@ -165,14 +165,14 @@ def get_answers(html):
             return outputs[0] if outputs else "Could not get results"
             #return outputs
 
-if args.q == None and args.query == None:
-    print("Hi, I'm TuxiPy. Ask me anything!\n")
-else:
-    q, query = args.q, args.query
-    if q == None:
-        q = query
-    google_html = make_req(q)
-    # print(google_html.prettify())
-    print(get_answers(google_html))
 
-        
+if __name__ == '__main__':
+    if args.q == None and args.query == None:
+        print("Hi, I'm TuxiPy. Ask me anything!\n")
+    else:
+        q, query = args.q, args.query
+        if q == None:
+            q = query
+        google_html = make_req(q)
+        # print(google_html.prettify())
+        print(get_answers(google_html))
