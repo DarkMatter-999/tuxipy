@@ -49,6 +49,8 @@ parser.add_argument('--query', nargs='?', help='Search query')
 
 args = parser.parse_args()
 
+google_html = ""
+
 # this div is google's top line answer, works for simple dates, values etc
 # eg: density of silver, what is the triple point of oxygen, elevation of mount everest, christmas day
 # "what is the " seems to be required for some things //credit @sudocanttype
@@ -155,7 +157,7 @@ def make_req(query):
 
 def get_answers(html):
     if not quiet:
-            correction = "".join([ a.text for a in google_html.find_all("a", class_ = "gL9Hy")])
+            correction = "".join([ a.text for a in html.find_all("a", class_ = "gL9Hy")])
             if correction:
                 print("Did you mean ", end="")
                 print(correction)
@@ -166,13 +168,18 @@ def get_answers(html):
             #return outputs
 
 
-if __name__ == '__main__':
+def main(args):
     if args.q == None and args.query == None:
         print("Hi, I'm TuxiPy. Ask me anything!\n")
     else:
         q, query = args.q, args.query
         if q == None:
             q = query
+
+        global google_html
         google_html = make_req(q)
         # print(google_html.prettify())
         print(get_answers(google_html))
+
+if __name__ == '__main__':
+    main(args)

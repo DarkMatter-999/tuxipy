@@ -4,3 +4,7 @@
 .github
 tests
 test.*
+dist/
+build/
+*.egg-info
+__pycache__/

@@ -23,11 +23,18 @@ relevant result on the basis of priority.
 
 ## Installation
 
+### pip
+```sh
+pip3 install tuxipy
+
+python3 -m tuxipy <Search Query>
+```
+
 ### cURL
 cURL **tuxi** to your **$PATH** and give execute permissions.
 
 ```sh
-$ sudo curl -sL "https://raw.githubusercontent.com/DarkMatter-999/tuxipy/main/tuxi.py" -o /usr/local/bin/tuxi.py
+$ sudo curl -sL "https://raw.githubusercontent.com/DarkMatter-999/tuxipy/main/tuxipy/tuxi.py" -o /usr/local/bin/tuxi.py
 $ sudo curl -sL "https://raw.githubusercontent.com/DarkMatter-999/tuxipy/main/requirements.txt" -o /tmp/requirements.txt
 $ pip3 install -r /tmp/requirements.txt
 $ sudo chmod +x /usr/local/bin/tuxi.py
